@@ -6,7 +6,8 @@ $global:ProgressPreference = "SilentlyContinue"
 
 function _kill($ProcessName) {
     try {
-        & cmd /c "taskkill /T /F /IM ${processName} 2>&1"
+        & cmd /c "taskkill /T /F /IM ${processName} > nul 2>&1"
+        Write-Host "Killed (if running): $($ProcessName)"
     }
     catch {
         Write-Host "Failed to kill ${processName}: $_"
@@ -164,7 +165,7 @@ Expect this execution to FAIL
 -----------------------------
 "
 
-& $SqlPackageExePath $SqlPackageArgs
+& cmd /c "$($SqlPackageExePath) $($SqlPackageArgs) 2>&1"
 
 Write-Host -ForegroundColor Red -Object "
 ------------------------
@@ -188,13 +189,13 @@ $SqlPackageArgs = @(
 )
 
 Write-Host -ForegroundColor Green -Object "
--------------------------------------------------------------------
+-----------------------------------------------------------------
 Expect this execution to PASS
-(Expect to see 'Hello world') written to console by the contributor
--------------------------------------------------------------------
+Expect to see 'Hello world' written to console by the contributor
+-----------------------------------------------------------------
 "
 
-& $SqlPackageExePath $SqlPackageArgs
+& cmd /c "$($SqlPackageExePath) $($SqlPackageArgs) 2>&1"
 
 Write-Host -ForegroundColor Green -Object "
 ------------------------
