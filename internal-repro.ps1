@@ -17,7 +17,7 @@ function _kill($ProcessName) {
 function _killProcs {
     Write-Host -ForegroundColor Yellow -Object "
 ----------------------------
-Cleanup up running processes
+Cleaning up running processes
 ----------------------------
     "
     _kill dotnet.exe
